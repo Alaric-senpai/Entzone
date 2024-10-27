@@ -1,6 +1,6 @@
 <div *ngIf="isonline; else offline">
 
-<div class="w-2 absolute min-w-max z-5   h-full">
+<div class="w-2 absolute min-w-max z-5   h-full" [class.menuview]= "menuVisible">
   <div class=" navbar p-4 my-3 surface-overlay h-full border-round-xl m-1">
     <div class="header flex flex-row gap-2 font-bold text-2xl align-items-center ">
       <i class="pi pi-youtube text-4xl"></i>
@@ -16,20 +16,22 @@
   
 </div>
 
-<div class="absolute right-0 w-12 hidden md:block  md:w-10 overflow-y-scroll px-2 overflow-x-hidden  h-screen" >
+<div class="absolute right-0 w-12  lg:w-10 overflow-y-scroll px-2 overflow-x-hidden  h-screen" >
   <!-- hey tthere -->
-   <div class="topbar  my-2 mb-5 w-12 text-center ">
-      <div>
+    <div class="topbar my-2 mb-5 w-12 text-center flex align-items-center">
+      <div class="w-10 lg:w-6">
         <form [formGroup]="searchform" (ngSubmit)="search()">
-          <p-inputGroup 
-          styleClass="w-6 m-auto  h-3rem border-round-2xl "
-          >
-            <input type="search" name="" id="" pInputText class="pl-2 border-round-left-2xl" formControlName="query">
-            <button type="submit" pButton text="true" icon="pi pi-search"></button>
+          <p-inputGroup styleClass="w-full m-auto h-3rem border-round-2xl">
+            <input type="search" pInputText class="pl-2 border-round-left-2xl w-full" formControlName="query">
+            <button type="submit" pButton icon="pi pi-search" styleClass="border-round-right-2xl"></button>
           </p-inputGroup>
         </form>
       </div>
-   </div>
+      <div class="w-2 flex justify-content-end">
+        <p-button icon="pi pi-bars" severity="primary" styleClass="p-2 lg:hidden" outlined="true" (onClick)="togglemenu()"></p-button>
+      </div>
+    </div>
+
    <router-outlet></router-outlet>
    
 </div>

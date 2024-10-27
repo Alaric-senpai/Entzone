@@ -14,6 +14,16 @@ import { InputTextModule } from 'primeng/inputtext';
   styleUrls: ['./app.component.scss'] // Corrected to styleUrls
 })
 export class AppComponent implements OnInit {
+  menuVisible: boolean = true;
+
+  togglemenu(){
+    if(this.menuVisible == true){
+      this.menuVisible = false
+    }else{
+      this.menuVisible = true
+    }
+  }
+
   title = 'Entzone';
   isonline = navigator.onLine; // Initialize directly based on navigator.onLine
 

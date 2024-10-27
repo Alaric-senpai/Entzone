@@ -12,3 +12,6 @@
     margin: 0;
     box-sizing: border-box;
 }
+.menuview{
+    @include styleclass('hidden lg:block')
+}
