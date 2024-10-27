@@ -1,0 +1,8 @@
+<p-card styleClass="relative shadow-5 border-round-2xl overflow-hidden" [routerLink]="['/info', id]">
+    <!-- <ng-template pTemplate="header">
+    </ng-template> -->
+    <img [src]="image" class="w-full h-full" [alt]="">
+    <div class="absolute bottom-0 left-0 w-full p-2 blur text-xl cursor-pointer opacity-70 surface-100">
+        {{ name }}
+    </div>
+</p-card>
