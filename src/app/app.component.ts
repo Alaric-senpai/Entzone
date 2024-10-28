@@ -5,17 +5,27 @@ import { Router, RouterModule, RouterOutlet } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputTextModule } from 'primeng/inputtext';
+import { MessagesModule } from 'primeng/messages';
+import { Message } from 'primeng/api';
 
 @Component({
   selector: 'app-root',
   standalone: true,
-  imports: [RouterOutlet, RouterModule, CommonModule, InputGroupModule, InputTextModule, ButtonModule, ReactiveFormsModule],
+  imports: [RouterOutlet, RouterModule, CommonModule, InputGroupModule, InputTextModule,
+  MessagesModule, ButtonModule, ReactiveFormsModule],
   templateUrl: './app.component.html',
   styleUrls: ['./app.component.scss'] // Corrected to styleUrls
 })
 export class AppComponent implements OnInit {
   menuVisible: boolean = true;
 
+  message: Message[] =[{
+    severity: 'success',
+    summary: 'Entzone Notice',
+    icon: "pi pi-info-circle",
+    styleClass: 'p-2 flex flex-column gap-2',
+    detail: ' Entzone uses torrents for downloading ensure you have a torrent downloading software before proceeding',
+  }];
   togglemenu(){
     if(this.menuVisible == true){
       this.menuVisible = false

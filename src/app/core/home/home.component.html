@@ -1,23 +1,24 @@
 <div class="skeleton" *ngIf="!(loading) && movies.length > 0">
     <div class="w-full mt-3 p-0 mx-0 border-round-2xl overflow-hidden relative">
     <!-- here is the new me -->
-     <p class="absolute  p-2 border-round text-red-400 glass" [style.top.px]="20" [style.left.px]="20">
+     <p class="absolute  p-2 border-round  glass" [style.top.px]="20" [style.left.px]="20">
             Latest
      </p>
      <img [src]="selectedmovie?.large_cover_image" alt="image" class="h-30rem w-full">
-     <div class="absolute left-0 bottom-0 p-3">
+     <div class="absolute left-0 bottom-0 p-3 glass w-full">
         <p-tag [value]="genre" severity="contrast" styleClass="p-2 mx-1 cursor-pointer" class="glass" *ngFor="let genre of selectedmovie?.genres" [routerLink]="['/genre', genre]"></p-tag>
-        <h3 class="font-bold text-6xl my-3">
+        <h3 class="font-bold text-xl lg:text-xl my-3">
             {{
                 selectedmovie?.title_english
             }}
         </h3>
-        <!-- <p class="w-6 mb-3">
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Iste doloremque doloribus dignissimos magnam vero odit, placeat cumque aut amet delectus.
-        </p> -->
-        <div class="flex gap-2 align-items-center">
-            <p-button severity="contrast" rounded="true" icon="pi pi-play surface-900 text-2xl mx-2" label="watch now" styleClass="gap-2 p-3"></p-button>
-            <p-button severity="contrast" outlined="true" rounded="true" icon="pi pi-download ml-3 text-2xl mx-2" label="Download" styleClass="gap-2 p-3"></p-button>
+         <p class="w-6 mb-3">
+            {{
+                selectedmovie?.description_intro || selectedmovie?.description_full
+            }}
+        </p>         <div class="flex gap-2 align-items-center flex-wrap">
+            <p-button severity="contrast" rounded="true" icon="pi pi-play surface-900 text-xl mx-2" label="watch now" styleClass="gap-2 p-2 lg:p-3"></p-button>
+            <p-button severity="contrast" outlined="true" rounded="true" icon="pi pi-download ml-3 text-2xl mx-2" label="Download" styleClass="gap-2 p-2 lg:p-3"></p-button>
             <p-button text="true" severity="contrast" icon="pi pi-ellipsis-h" styleClass="p-3" rounded="true" [routerLink]="['/info', selectedmovie?.id]"></p-button>
         </div>
      </div>
@@ -28,7 +29,7 @@
     </h2>
 
     <div class="grid">
-            <div class="col-6 sm:col-6 md:col-4 lg:col-3 p-2 my-3" *ngFor="let movie of movies">
+            <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3" *ngFor="let movie of movies">
                 <app-card [image]="movie.medium_cover_image" [id]="movie.id" [name]="movie.title_english"></app-card>
             </div>
     </div>

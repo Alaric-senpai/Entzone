@@ -32,15 +32,17 @@ export class SearchComponent implements OnInit  {
     )
   }
 
-  private findResults() {
-    this.yts.Search(this.query).subscribe(
-      (data: any) => {
-        this.loading = false
-        this.movies = data.data.movies
-      },
-      (error: any) => {
-        console.error(error)
-      }
-    )
-  }
-}
+private findResults() {
+  this.yts.Search(this.query).subscribe(
+    (data: any) => {
+      this.loading = false;
+      // Ensure movies are defined, fallback to an empty array if undefined
+      this.movies = data?.data?.movies || [];
+    },
+    (error: any) => {
+      console.error(error);
+      this.loading = false;
+      this.movies = []; // Clear movies on error to handle empty state
+    }
+  );
+}}
