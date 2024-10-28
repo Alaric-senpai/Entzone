@@ -7,17 +7,20 @@ import { CommonModule } from '@angular/common';
 import { Subscription, interval } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
-
+import { SkeletonModule } from 'primeng/skeleton';
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [TagModule, ButtonModule, CardComponent, CommonModule, RouterModule],
+  imports: [TagModule, ButtonModule, CardComponent, CommonModule, RouterModule,
+    SkeletonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
+  loader = [1,2,3,4,5,6,7,8,9,9,9,9,9,9,9,9,9,7,7,8,6,4,5,6,4,6,6,6]
   movies: any = [];
   totalmovies = 50;
+  loading:boolean = true
   activemovie: number = 0; // Start from 0 to align with the index of the movies array
   selectedmovie: any;
   private subscription: Subscription = new Subscription();
@@ -44,6 +47,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.yts.getmovies().subscribe(
       (data: any) => {
         this.movies = data.data.movies;
+        this.loading  = false
         this.totalmovies = this.movies.length; // Update totalmovies to the actual length of movies fetched
         this.selectedmovie = this.movies[this.activemovie];
         this.cdr.markForCheck(); // Ensure initial view update

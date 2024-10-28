@@ -1,126 +1,166 @@
-<div class="grid mt-3 p-1">
-    <!-- First Column -->
-    <div class="col-12  lg:col-3">
-        <img [src]="show?.medium_cover_image" alt="Mavka the forest song" class="w-full h-25rem">
-        <div class="p-1">
-            <h3> {{
-                show?.title_english
-                }} </h3>
-            <h4 class="my-2 flex flex-row justify-content-between">
-                {{
-                    show?.year 
-                }}
-                <span>
-                    <i class="pi pi-star-fill text-yellow-500"></i>
+<div class="loaded" *ngIf="!(loading) && show">
+    <div class="grid mt-3 p-1">
+        <!-- First Column -->
+        <div class="col-12  lg:col-3">
+            <img [src]="show?.medium_cover_image" alt="Mavka the forest song" class="w-full h-25rem">
+            <div class="p-1">
+                <h3> {{
+                    show?.title_english
+                    }} </h3>
+                <h4 class="my-2 flex flex-row justify-content-between">
                     {{
-                        show?.rating
-                    }} / 10
-                </span>
-            </h4>
-            <p-tag [value]="genre" styleClass="p-2 cursor-pointer mx-1 my-2" *ngFor="let genre of show?.genres"></p-tag>
+                        show?.year 
+                    }}
+                    <span>
+                        <i class="pi pi-star-fill text-yellow-500"></i>
+                        {{
+                            show?.rating
+                        }} / 10
+                    </span>
+                </h4>
+                <p-tag [value]="genre" styleClass="p-2 cursor-pointer mx-1 my-2" *ngFor="let genre of show?.genres"
+                [routerLink]="['/genre', genre]"
+                ></p-tag>
+            </div>
         </div>
-    </div>
 
-    <!-- Middle Column (YouTube Video) -->
-    <div class="col-12  lg:col-6">
-        <iframe 
-            [src]="getYoutubeEmbedUrl(show?.yt_trailer_code)" 
-            class="w-full h-25rem border-0" 
-            frameborder="0" 
-            allowfullscreen>
-        </iframe>
-        <div class="p-1">
-            <h3>Show Summary</h3>
-            <p>
-                {{
-                     show?.description_full ||  show?.description_intro || "Not Set"
-                }}
-            </p>
+        <!-- Middle Column (YouTube Video) -->
+        <div class="col-12  lg:col-6">
+            <iframe 
+                [src]="getYoutubeEmbedUrl(show?.yt_trailer_code)" 
+                class="w-full h-25rem border-0" 
+                frameborder="0" 
+                allowfullscreen>
+            </iframe>
+            <div class="p-1">
+                <h3>Show Summary</h3>
+                <p>
+                    {{
+                         show?.description_full ||  show?.description_intro || "Not Set"
+                    }}
+                </p>
+            </div>
         </div>
-    </div>
 
-    <!-- Third Column (Accordion with Cast) -->
-    <div class="col-12 lg:col-3">
-        <p-accordion [activeIndex]="0">
-            <p-accordionTab >
-                <ng-template pTemplate="header">
-                    <div class="flex align-items-center justify-content-start px-2 py-3">
-                        CAST
-                    </div>
-                </ng-template>
-                <div class="flex gap-2 flex-wrap">
-                    <div class="flex-auto md:flex-1" *ngFor=" let cast of show?.cast">
-                        <div>
-                            <img [src]="cast.url_small_image" alt="Amy Walker" class="w-full h-10rem">
-                            <h5 class="w-full line-height-4 my-1 mb-2 px-3"> 
-                                {{
-                                    cast.name
-                                }}
-                            </h5>
-                            <h5 class="w-full line-height-4 my-1 mb-2 px-3 text-sm">
-                                {{
-                                    cast.character_name
-                                }}
-                            </h5>
-
+        <!-- Third Column (Accordion with Cast) -->
+        <div class="col-12 lg:col-3">
+            <p-accordion [activeIndex]="0">
+                <p-accordionTab >
+                    <ng-template pTemplate="header">
+                        <div class="flex align-items-center justify-content-start px-2 py-3">
+                            CAST
                         </div>
+                    </ng-template>
+                    <div class="flex gap-2 flex-wrap">
+                        <div class="flex-auto md:flex-1 min-w-max" *ngFor=" let cast of show?.cast">
+                            <div>
+                                <img [src]="cast.url_small_image" [alt]="cast.name" class="w-full h-10rem">
+                                <h5 class="w-full line-height-4 my-1 mb-2 px-3"> 
+                                    {{
+                                        cast.name
+                                    }}
+                                </h5>
+                                <h5 class="w-full line-height-4 my-1 mb-2 px-3 text-sm">
+                                    {{
+                                        cast.character_name
+                                    }}
+                                </h5>
+
+                            </div>
+                        </div>
+
                     </div>
-
-                </div>
-            </p-accordionTab>
-        </p-accordion>
+                </p-accordionTab>
+            </p-accordion>
+        </div>
     </div>
-</div>
 
-<div class="py-3 surface-border border-round shadow-4">
-    <h3 class="text-center capitalize">Torrent Download Links</h3>
-    <div class="grid p-3">
-        <div class="col-12 sm:col-6 md:col-4 p-3 m-2 surface-overlay border-round" *ngFor="let torrent of show?.torrents">
-            <p class="line-height-4 font-medium text-xl ">
-                Type: {{
-                    torrent.type
-                }}
-            </p>
-            <!-- <p class="line-height-4 font-medium text-xl ">
-                Hash: <span class="font-bold">hash co</span>
-            </p>
-            <p class="line-height-4 font-medium text-xl ">
-                Video codec: <span class="font-bold">codec goes here</span>
-            </p> -->
-            <p class="flex justify-content-between line-height-4 font-medium text-xl ">
-                <span>Seeders: <span class="font-bold"> {{ torrent.seeds }} </span></span>
-                <span>Peers: <span class="font-bold"> {{ torrent.peers }} </span></span>
-            </p>
-            <p class="flex align-items-center line-height-3 font-bold text-2xl ">
-                <i class="pi pi-file mr-2"></i>
-                {{
-                    torrent.size
-                }}
-            </p>
+    <div class="py-3 surface-border border-round shadow-4">
+        <h3 class="text-center capitalize">Torrent Download Links</h3>
+        <div class="grid p-3">
+            <div class="col-12 sm:col-6  md:col-4 my-2   border-round" *ngFor="let torrent of show?.torrents">
+                <div class="surface-overlay p-1 relative">
+                <p class="line-height-4 font-medium text-xl ">
+                    Type: {{
+                        torrent.type
+                    }}
+                </p>
+                <i class="absolute top-0 right-0 p-3 bg-yellow-900 text-black">
+                    {{
+                        torrent.quality
+                    }}
+                </i>
+                <!-- <p class="line-height-4 font-medium text-xl ">
+                    Hash: <span class="font-bold">hash co</span>
+                </p>
+                <p class="line-height-4 font-medium text-xl ">
+                    Video codec: <span class="font-bold">codec goes here</span>
+                </p> -->
+                <p class="flex justify-content-between line-height-4 font-medium text-xl ">
+                    <span>Seeders: <span class="font-bold"> {{ torrent.seeds }} </span></span>
+                    <span>Peers: <span class="font-bold"> {{ torrent.peers }} </span></span>
+                </p>
+                <p class="flex align-items-center line-height-3 font-bold text-2xl ">
+                    <i class="pi pi-file mr-2"></i>
+                    {{
+                        torrent.size
+                    }}
+                </p>
 
-            <!-- p-button as a link -->
-            <div class="p-fluid">
-                <a [href]="generateMagnetLink(torrent)" target="_blank">
-                    <p-button 
-                        styleClass="p-2 w-full my-3"            
-                        label="Download">
-                    </p-button>
-                </a>
+                <!-- p-button as a link -->
+                <div class="p-fluid">
+                    <a [href]="generateMagnetLink(torrent)" target="_blank">
+                        <p-button 
+                            styleClass="p-2 w-full my-3"            
+                            label="Download">
+                        </p-button>
+                    </a>
+                </div>                
+                </div>
+
             </div>
         </div>
     </div>
 </div>
 
-
-<h3 class="w-full line-height-4 font-bold text-xl">
-    You may also like
-</h3>
-
-<div class="grid">
-    @for(movie of relatedShows; track $index){
-        <div class="col sm:col-6 md:col-4 lg:col-3 p-2 my-3">
-            <app-card [id]="movie.id" [name]="movie.title_english" [image]="movie.medium_cover_image"></app-card>
+<div class="loading" *ngIf="loading">
+    <div class="grid">
+        <div class="col-12 lg:col-3 p-2">
+            <p-skeleton styleClass="w-full h-20rem"></p-skeleton>
         </div>
+        <div class="col-12 lg:col-6 p-2">
+            <p-skeleton styleClass="w-full h-20rem"></p-skeleton>
+        </div>
+        <div class="col-12 lg:col-3 p-2">
+            <p-skeleton styleClass="w-full h-20rem"></p-skeleton>
+        </div>
+    </div>
+</div>
 
+
+<div class="relatedloaded" *ngIf="!(relatedloading) && relatedShows.length > 0">  
+    <h3 class="w-full line-height-4 font-bold text-xl">
+        You may also like
+    </h3>
+
+    <div class="grid">
+        @for(movie of relatedShows; track $index){
+            <div class="col sm:col-6 md:col-4 lg:col-3 p-2 my-3">
+                <app-card [id]="movie.id" [name]="movie.title_english" [image]="movie.medium_cover_image"></app-card>
+            </div>
+
+        }
+    </div>
+</div>
+
+<div class="loadingrelated" *ngIf="relatedloading">
+    <!-- <p-skeleton styleClass="w-full h-30rem"></p-skeleton> -->
+    <div class="grid my-3">
+    @for(item of loader; track $index){
+            <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3">
+                <p-skeleton styleClass="w-full h-19rem"></p-skeleton>
+            </div>    
     }
+
+        </div>
 </div>

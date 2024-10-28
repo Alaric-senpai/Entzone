@@ -6,16 +6,18 @@ import { CarouselModule } from 'primeng/carousel';
 import { YtsService } from '../../services/yts.service';
 import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-explore',
   standalone: true,
-  imports: [CardComponent, RouterModule, CommonModule, CarouselModule, ButtonModule],
+  imports: [CardComponent, RouterModule, CommonModule, CarouselModule, ButtonModule, SkeletonModule],
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.scss']
 })
 export class ExploreComponent {
-
+  loader = [1,2,3,4,5,6,7,8,9,9,9,9,9,9,9,9,9,7,7,8,6,4,5,6,4,6,6,6,7,77,7,7,7,7,7,7,7,7,7,7]
+  loading:boolean = true
   movies: any = [];
   totalMovies: any = 0;
   page: number = 1; // Changed from 'Number' to 'number'
@@ -32,6 +34,7 @@ export class ExploreComponent {
     const moviesSubscription = this.yts.getmoviesbypage(this.page).subscribe(
       (data: any) => {
         this.totalMovies = data.data.movie_count;
+        this.loading = false
         this.movies = data.data.movies;
         this.calcPages();
       },
@@ -42,7 +45,7 @@ export class ExploreComponent {
     this.subscription.add(moviesSubscription); // Add the subscription to the Subscription object
   }
 
-  private calcPages() {
+   calcPages() {
     this.totalPages = Math.ceil(this.totalMovies / 50);
     console.log(this.totalPages);
   }

@@ -1,5 +1,5 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CardModule } from 'primeng/card';
@@ -10,17 +10,20 @@ import { Subscription } from 'rxjs';
 import { YtsService } from '../../services/yts.service';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // Import DomSanitizer
+import { SkeletonModule } from 'primeng/skeleton';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule],
+  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule, RouterModule, SkeletonModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss'
 })
 export class DetailsComponent implements OnInit, OnDestroy {
-
+  loader = [1,2,3,4,5,6,7,8]
   private subscription: Subscription = new Subscription();
+  loading:boolean = true
+  relatedloading: boolean  = true
   showid: any;
   show: any;
   relatedShows: any = [];
@@ -44,6 +47,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const moviedata = this.yts.getmoviesdetails(this.showid).subscribe(
       (data: any) => {
         this.show = data.data.movie;
+        this.loading = false
         this.getRelatedShows();
       },
       (err) => {
@@ -58,6 +62,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const relatedShow = this.yts.getSimilar(this.showid).subscribe(
       (data: any) => {
         this.relatedShows = data.data.movies;
+        this.relatedloading = false
       },
       (error) => {
         console.log(error);

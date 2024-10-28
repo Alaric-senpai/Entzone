@@ -33,8 +33,8 @@ export class YtsService {
     return this.http.get<any[]>(url)
   }
 
-  findByGenre(genre: any): Observable<any[]>{
-    const url = `${this.basurl}/list_movies.json?genre=${genre}`
+  findByGenre(genre: any, page:any): Observable<any[]>{
+    const url = `${this.basurl}/list_movies.json?genre=${genre}&page=${page}&limit=50`
     return this.http.get<any[]>(url)
   }
 

@@ -3,6 +3,7 @@ import { HomeComponent } from './core/home/home.component';
 import { ExploreComponent } from './core/explore/explore.component';
 import { DetailsComponent } from './core/details/details.component';
 import { SearchComponent } from './core/search/search.component';
+import { GenreComponent } from './core/genre/genre.component';
 
 export const routes: Routes = [
     {
@@ -26,7 +27,10 @@ export const routes: Routes = [
     },
     {
         path: 'search/:query',
-        component: SearchComponent,
-        
+        component: SearchComponent,   
+    },
+    {
+        path: 'genre/:genre',
+        component:GenreComponent
     }
 ];
