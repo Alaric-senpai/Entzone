@@ -6,18 +6,27 @@ import { ButtonModule } from 'primeng/button';
 import { InputGroupModule } from 'primeng/inputgroup';
 import { InputTextModule } from 'primeng/inputtext';
 import { MessagesModule } from 'primeng/messages';
-import { Message } from 'primeng/api';
+import { Message, MessageService } from 'primeng/api';
+import { DialogModule } from 'primeng/dialog';
+import { ToastModule } from 'primeng/toast';
+
 
 @Component({
   selector: 'app-root',
   standalone: true,
   imports: [RouterOutlet, RouterModule, CommonModule, InputGroupModule, InputTextModule,
-  MessagesModule, ButtonModule, ReactiveFormsModule],
+  MessagesModule, ButtonModule, ReactiveFormsModule, DialogModule, ToastModule],
   templateUrl: './app.component.html',
+  providers: [MessageService],
   styleUrls: ['./app.component.scss'] // Corrected to styleUrls
 })
 export class AppComponent implements OnInit {
   menuVisible: boolean = true;
+  displayDialog: boolean = false;
+
+  showDialog() {
+    this.displayDialog = true;
+  }
 
   message: Message[] =[{
     severity: 'success',
@@ -38,7 +47,8 @@ export class AppComponent implements OnInit {
   isonline = navigator.onLine; // Initialize directly based on navigator.onLine
 
   constructor(private fb: FormBuilder,
-    private router:Router
+    private router:Router,
+    private ms:MessageService
    ) {
     
   }
@@ -84,7 +94,20 @@ export class AppComponent implements OnInit {
 
     const query = controls['query'].value
 
-    this.router.navigate(['/search', query])
+    if(query.trim() !== " "){
+      this.displayDialog = false;
+      this.router.navigate(['/search', query])
+    }else{
+      this.displayDialog = false
+      this.ms.add(
+      {
+        summary: 'Blank query',
+        severity: 'error',
+        detail: 'Query cannot be blank',
+        styleClass: 'p-2'
+      })
+    }
+
   }
 
 }

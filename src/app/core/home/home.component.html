@@ -1,50 +1,29 @@
-<div class="skeleton" *ngIf="!(loading) && movies.length > 0">
-    <div class="w-full mt-3 p-0 mx-0 border-round-2xl overflow-hidden relative">
-    <!-- here is the new me -->
-     <p class="absolute  p-2 border-round  glass" [style.top.px]="20" [style.left.px]="20">
-            Latest
-     </p>
-     <img [src]="selectedmovie?.large_cover_image" alt="image" class="h-30rem w-full">
-     <div class="absolute left-0 bottom-0 p-3 glass w-full">
-        <p-tag [value]="genre" severity="contrast" styleClass="p-2 mx-1 cursor-pointer" class="glass" *ngFor="let genre of selectedmovie?.genres" [routerLink]="['/genre', genre]"></p-tag>
-        <h3 class="font-bold text-xl lg:text-xl my-3">
-            {{
-                selectedmovie?.title_english
-            }}
-        </h3>
-         <p class="w-6 mb-3">
-            {{
-                selectedmovie?.description_intro || selectedmovie?.description_full
-            }}
-        </p>         <div class="flex gap-2 align-items-center flex-wrap">
-            <p-button severity="contrast" rounded="true" icon="pi pi-play surface-900 text-xl mx-2" label="watch now" styleClass="gap-2 p-2 lg:p-3"></p-button>
-            <p-button severity="contrast" outlined="true" rounded="true" icon="pi pi-download ml-3 text-2xl mx-2" label="Download" styleClass="gap-2 p-2 lg:p-3"></p-button>
-            <p-button text="true" severity="contrast" icon="pi pi-ellipsis-h" styleClass="p-3" rounded="true" [routerLink]="['/info', selectedmovie?.id]"></p-button>
-        </div>
-     </div>
+<div class="h-screen w-screen overflow-hidden relative">
+
+
+    <!-- Dynamic Background Image -->
+    <img [src]="selectedmovie?.large_cover_image" alt="" class="w-full h-full">
+    
+    <div class="title transform text-center glass p-1 border-round-2xl">
+        <h1 class="lora-bold text-2xl lg:text-7xl">
+            {{ selectedmovie?.title_english }}
+        </h1>
     </div>
 
-    <h2 class="my-3">
-        Trending now
-    </h2>
-
-    <div class="grid">
-            <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3" *ngFor="let movie of movies">
-                <app-card [image]="movie.medium_cover_image" [id]="movie.id" [name]="movie.title_english"></app-card>
-            </div>
+    <div class="absolute bottom-0 left-0 w-full p-4 glass">
+        <h5 class="text-xl lora-semibold my-2">
+            {{ selectedmovie?.title_english }}
+        </h5>
+        <p class="w-12 md:w-6 hidden md:block">
+            {{ selectedmovie?.description_intro  }}
+        </p>
+        <p-button label="More info" outlined="true" styleClass="p-2 my-2" icon="pi pi-chevron-right" iconPos="right"></p-button>
     </div>
 </div>
 
-
-<div class="loading" *ngIf="loading">
-        <p-skeleton styleClass="w-full h-30rem"></p-skeleton>
-        <div class="grid my-3">
-    @for(item of loader; track $index){
-            <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3">
-                <p-skeleton styleClass="w-full h-19rem"></p-skeleton>
-            </div>    
-    }
-
-        </div>
+<h3 class="my-2">High rating movies</h3>
+<div class="grid w-screen">
+    <div class="col-12 md:col-4 lg:col-3 p-3" *ngFor="let movie of movies">
+        <app-card [name]="movie.title_english" [image]="movie.medium_cover_image" [id]="movie.id" [genres]="movie.genres"></app-card>
+    </div>
 </div>
-

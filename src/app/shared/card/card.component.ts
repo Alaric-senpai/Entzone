@@ -1,19 +1,25 @@
 import { CommonModule } from '@angular/common';
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { CardModule } from 'primeng/card';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-card',
   standalone: true,
-  imports: [CardModule, RouterModule, CommonModule],
+  imports: [CardModule, RouterModule, CommonModule, ButtonModule],
   templateUrl: './card.component.html',
-  styleUrl: './card.component.scss'
+  styleUrls: ['./card.component.scss']
 })
-export class CardComponent {
-  @Input({ required: true }) image: any;
-  @Input({ required: true }) name: any;
-  @Input({ required: true }) id: any;
+export class CardComponent implements OnInit {
+  @Input() image: any;
+  @Input() name: any;
+  @Input() id: any;
+  @Input() genres: any;
 
-  
+  genresclip: any[] = [];
+
+  ngOnInit() {
+    this.genresclip = this.genres?.slice(0, 3) || [];
+  }
 }

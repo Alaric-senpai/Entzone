@@ -1,4 +1,5 @@
-<div class="loaded" *ngIf="!loading && movies?.length > 0">
+<div class="mt-7 p-2 w-screen">
+  <div class="loaded" *ngIf="!loading && movies?.length > 0">
   <div class="w-full">
     <h2 class="font-bold text-2xl">
       Search results for: <span class="capitalize">{{ query }}</span>
@@ -7,7 +8,8 @@
 
   <div class="grid my-3">
     <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3" *ngFor="let movie of movies">
-      <app-card [image]="movie.medium_cover_image" [id]="movie.id" [name]="movie.title_english"></app-card>
+      <app-card [image]="movie.medium_cover_image" [id]="movie.id" [name]="movie.title_english"
+      [genres]="movie.genres"></app-card>
     </div>
   </div>
 </div>
@@ -22,4 +24,6 @@
 
 <div class="w-full p-4 text-red-300" *ngIf="!loading && movies?.length === 0">
   No results for "{{ query }}"
+</div>
+
 </div>

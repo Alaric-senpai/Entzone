@@ -14,6 +14,11 @@ export class YtsService {
     const url = `${this.basurl}/list_movies.json?limit=50`
     return this.http.get<any[]>(url)
   }
+  getTrendingmovies(): Observable<any[]> {
+    const url = `${this.basurl}/list_movies.json?limit=50&minimum_rating=9&sort_by=rating`
+    return this.http.get<any[]>(url)
+  }
+
     getmoviesbypage(page:any): Observable<any[]> {
     const url = `${this.basurl}/list_movies.json?limit=50&page=${page}`
     return this.http.get<any[]>(url)

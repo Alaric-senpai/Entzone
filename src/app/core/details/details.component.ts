@@ -11,13 +11,15 @@ import { YtsService } from '../../services/yts.service';
 import { CommonModule } from '@angular/common';
 import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // Import DomSanitizer
 import { SkeletonModule } from 'primeng/skeleton';
-
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule, RouterModule, SkeletonModule],
+  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule, RouterModule, SkeletonModule, ToastModule],
   templateUrl: './details.component.html',
-  styleUrl: './details.component.scss'
+  styleUrl: './details.component.scss',
+  providers: [MessageService]
 })
 export class DetailsComponent implements OnInit, OnDestroy {
   loader = [1,2,3,4,5,6,7,8]
@@ -31,7 +33,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
   constructor(
     private route: ActivatedRoute,
     private yts: YtsService,
-    private sanitizer: DomSanitizer // Inject DomSanitizer
+    private sanitizer: DomSanitizer, 
+    private ms:MessageService
   ) { }
   
   ngOnInit(): void {
@@ -83,7 +86,12 @@ export class DetailsComponent implements OnInit, OnDestroy {
     const name = encodeURIComponent(data.url.split('/').pop()); // Extract and URL-encode the movie name from the URL
     const trackers = [
       'udp://open.demonii.com:1337/announce',
-      'udp://tracker.openbittorrent.com:80'
+      'udp://tracker.openbittorrent.com:80',
+      'udp://torrent.gresille.org:80/announce',
+      'udp://tracker.openbittorrent.com:80',
+      'udp://tracker.coppersurfer.tk:6969',
+      'udp://tracker.leechers-paradise.org:6969',
+      'udp://p4p.arenabg.ch:1337'
     ];
 
     // Construct the tracker string
@@ -94,7 +102,35 @@ export class DetailsComponent implements OnInit, OnDestroy {
     
     return magnetLink;
   }
-  
+
+  downloadTorrent(torrent:any){
+    const link = this.generateMagnetLink(torrent);
+
+    window.open(link, '_blank')
+  }
+
+  generateCopyLink(torrent:any){
+    const link = this.generateMagnetLink(torrent)
+    navigator.clipboard.writeText(link).then(() => {
+      this.ms.add(
+      {
+        icon: 'pi pi-check',
+        severity: 'success',
+        summary: 'Copy successfull',
+        detail: 'Magnet link copied succesfully',
+        styleClass: 'p-2'
+      })
+    }).catch(err => {
+            this.ms.add(
+      {
+        icon: 'pi pi-check',
+        summary: 'Copy failed',
+        detail: 'Magnet link no copied try again',
+        styleClass: 'p-2',
+        severity: 'error'
+      })
+    });
+  }  
   ngOnDestroy(): void {
     this.subscription.unsubscribe();
   }

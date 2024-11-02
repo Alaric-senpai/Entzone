@@ -1,12 +1,32 @@
-.blur{
+.blur {
     background-color: rgba(0, 0, 0, 0.5) !important;
     filter: blur(40%) !important;
 }
-.image{
-    height: 90% !important;
-    width: 100% !important;
-    max-height: 450px !important;
+
+.image {
+    aspect-ratio: 16/9 !important;
 }
+
 .data {
     height: 10% !important;
+}
+
+p-card {
+    position: relative !important;
+    overflow: hidden !important; /* Corrected typo from 'overlow' to 'overflow' */
+    border-radius: 16px !important;
+}
+
+.holder {
+    position: absolute !important;
+    top: 100%;
+    border-radius: 16px;
+    left: 0;
+    height: 100%;
+    width: 100%;
+    transition: top 0.3s ease; /* Added transition for smooth effect */
+}
+
+p-card:hover .holder {
+    top: 0; /* Move the holder div into view on hover */
 }

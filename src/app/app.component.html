@@ -1,44 +1,54 @@
-<div *ngIf="isonline; else offline">
-
-<div class="w-2 absolute min-w-max z-5   h-full" [class.menuview]= "menuVisible">
-  <div class=" navbar p-4 my-3 surface-overlay h-full border-round-xl m-1">
-    <div class="header flex flex-row gap-2 font-bold text-2xl align-items-center ">
-      Entzone
+<!-- <div *ngIf="isonline; else offline"> -->
+    <div class="glass shadow-3 z-5 absolute top-0 left-0 w-full py-2 flex align-items-center justify-content-between p-2">
+        <h2>
+            EntZone
+        </h2>
+        <div class="flex align-items-center justify-content-between gap-2">
+            <p class="text-xl cursor-pointer " [routerLink]="['/home']" routerLinkActive="text-green-400 text-2xl">
+                Home
+            </p>
+            <p class="text-xl cursor-pointer"  [routerLink]="['/explore']" routerLinkActive="text-green-400 text-2xl">
+                Explore
+            </p>
+            <p-button icon=" pi pi-search" styleClass="p-1 h-2rem w-2rem" (click)="showDialog()" text="true" rounded="true"></p-button>
+        </div>
     </div>
-    <div class="menu mt-3 w-full">
-      <p class="menu-item h-3rem flex text-xl capitalize align-items-center gap-2 cursor-pointer  px-2 border-rounds" *ngFor="let item of menuitems" [routerLink]="item.route" routerLinkActive="text-primary">
-        <i [class]="item.icon"></i>
-        {{ item.name }}
-      </p>
+    <div>
+      <router-outlet></router-outlet>
     </div>
-  </div>
-  
-</div>
-
-<div class="absolute right-0 w-12  lg:w-10 overflow-y-scroll px-2 overflow-x-hidden  h-screen" >
-  <!-- hey tthere -->
-    <div class="topbar my-2 mb-5 w-12 text-center flex align-items-center">
-      <div class="w-10 lg:w-6">
-        <form [formGroup]="searchform" (ngSubmit)="search()">
-          <p-inputGroup styleClass="w-full m-auto h-3rem border-round-2xl">
-            <input type="search" pInputText class="pl-2 border-round-left-2xl w-full" formControlName="query">
-            <button type="submit" pButton icon="pi pi-search" styleClass="border-round-right-2xl"></button>
-          </p-inputGroup>
-        </form>
+<p-dialog header="Search" [(visible)]="displayDialog" [modal]="true" [closable]="true"
+  [draggable]="false" [dismissableMask]="true"
+styleClass="p-2 w-12 md:w-7 lg:w-5 h-15rem"
+>
+    
+    <ng-template pTemplate="header">
+      <div class="flex h-3rem w-full align-items-center justify-content-center">
+        <h2>
+           Find your movie        
+        </h2>
       </div>
-      <div class="w-2 flex justify-content-end">
-        <p-button icon="pi pi-bars" severity="primary" styleClass="p-2 lg:hidden" outlined="true" (onClick)="togglemenu()"></p-button>
-      </div>
+    </ng-template>
+
+    <div class="my-3">
+      <form [formGroup]="searchform" (ngSubmit)="search()">
+        <div class="field text-center">
+            <input id="query" type="text" pInputText formControlName="query" class="h-3rem px-2 w-9 m-auto" placeholder="Try 'Spies in disguise'" />
+        </div>
+        <p-footer class="flex  justify-content-end w-10 m-auto">
+            <button type="submit" pButton label="Search" class="p-2 gap-2" icon="pi pi-search" [disabled]="searchform.invalid"></button>
+        </p-footer>
+    </form>
     </div>
 
-   <router-outlet></router-outlet>
-   
-</div>
+    <ng-template pTemplate="footer">
+      <div class="p-3">
+        Powered by <a href="https://yts.mx/api" target="_blank">yts api</a>
+      </div>
+    </ng-template>
 
+</p-dialog>
 
-<p-messages [(value)]="message" [enableService]="false" styleClass="z-5 w-5 top-0 right-0 absolute p-3 flex-column" />
-
-</div>
-<ng-template #offline>
+<!-- </div> -->
+<!-- <ng-template #offline>
   you are currently offline
-</ng-template>
+</ng-template> -->

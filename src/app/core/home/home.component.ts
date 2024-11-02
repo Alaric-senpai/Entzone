@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private GetMovies(): void {
-    this.yts.getmovies().subscribe(
+    this.yts.getTrendingmovies().subscribe(
       (data: any) => {
         this.movies = data.data.movies;
         this.loading  = false

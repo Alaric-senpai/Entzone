@@ -1,7 +1,32 @@
-<p-card styleClass="relative shadow-5 border-round-2xl overflow-hidden    cursor-pointer" [routerLink]="['/info', id]">
-
-    <img [src]="image" class=" image" [alt]="name">
-    <div class=" w-full p-2 absolute bottom-0 flex align-items-center jsutficy-content-center glass text-xl cursor-pointer  surface-100 py-3">
-        {{ name }}
+<p-card styleClass="relative overflow-hidden border-round-2xl">
+    <ng-template pTemplate="header">
+        <img [src]="image" alt="{{ name }}" class="w-full h-25rem image">
+    </ng-template>
+    <div 
+      class="title transition-duration-500 absolute top-0 left-0 holder glass-2 
+      flex align-items-center justify-content-between flex-column p-3"
+    >
+        <h4 class="text-xl">
+            {{ name }}
+        </h4>
+        <p class="cursor-pointer">
+            <ng-container *ngFor="let genre of genresclip; let i = index">
+                <a 
+                  [routerLink]="['/genre', genre]" 
+                  class="text-decoration-none text-inherit"
+                >
+                    {{ genre }}
+                </a>
+                <span *ngIf="i < genresclip.length - 1"> / </span> <!-- Separator between genres -->
+            </ng-container>
+        </p>
+        <p-button 
+          styleClass="p-2 w-full" 
+          label="More info" 
+          icon="pi pi-chevron-right" 
+          iconPos="right" 
+          outlined="true"
+          [routerLink]="['/info', id]"
+        ></p-button>
     </div>
 </p-card>
