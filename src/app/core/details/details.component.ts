@@ -13,10 +13,13 @@ import { DomSanitizer, SafeResourceUrl } from '@angular/platform-browser'; // Im
 import { SkeletonModule } from 'primeng/skeleton';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { SEOService } from 'ngx-seo-helper';
+import { PanelModule } from 'primeng/panel';
+import { ScrollPanelModule } from 'primeng/scrollpanel';
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule, RouterModule, SkeletonModule, ToastModule],
+  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule, RouterModule, SkeletonModule, ToastModule, PanelModule, ScrollPanelModule],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
   providers: [MessageService]
@@ -34,7 +37,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
     private route: ActivatedRoute,
     private yts: YtsService,
     private sanitizer: DomSanitizer, 
-    private ms:MessageService
+    private ms:MessageService,
+    private seo:SEOService
   ) { }
   
   ngOnInit(): void {
@@ -44,6 +48,8 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.getMovieData();
       }
     );
+
+    
   }
 
   private getMovieData() {
@@ -51,6 +57,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
       (data: any) => {
         this.show = data.data.movie;
         this.loading = false
+        this.setSeo()
         this.getRelatedShows();
       },
       (err) => {
@@ -59,6 +66,36 @@ export class DetailsComponent implements OnInit, OnDestroy {
     );
 
     this.subscription.add(moviedata);
+  }
+  setSeo() {
+    this.seo.updateMetaTags(
+      {
+        title: this.show.title_english || this.show.title,
+        description: this.show.description_into || this.show.description_full || "Description not set fot this page",
+        keywords : this.show.genres,
+        author: 'Entzonex',
+        imageUrl: this.show.medium_cover_image,
+        url: `https://entzonex.web.app/info/${this.showid}`,
+        robots: 'follow, index'
+      }
+    )
+
+    this.seo.setTwitterTags(
+      {
+        cardType: 'summary_large_card',
+        title: this.show.title_english || this.show.title,
+        creator: 'Entzonex',
+        description: this.show.description_into || this.show.description_full || "Description not set fot this page",
+        image: this.show.meduim_cover_image
+     
+     }
+
+    )
+
+    this.seo.setRobotsTag('follow, index');
+
+
+    this.seo.auditSEO()
   }
 
   private getRelatedShows() {

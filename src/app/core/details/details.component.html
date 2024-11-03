@@ -2,9 +2,9 @@
     <div class="relative w-screen ">
         <!-- <img [src]="show.background_image_original" alt="" class="" class="w-full h-full"> -->
         <div class="pt-7">
-            <div class="grid">
-                <div class="col-12 md:col-3 block gap-2 my-2">
-                    <img [src]="show.medium_cover_image" alt="" class="w-full ">
+            <div class="grid p-3">
+                <div class="col-12 md:col-4 lg:col-3 block gap-2 my-2 p-2">
+                    <img [src]="show.medium_cover_image" alt="" class="w-full h-20rem shadow-1 border-round-xl">
                     <h3 class="my-2">
                         {{
                             show.title_english
@@ -30,29 +30,38 @@
                         Duration: {{ show.runtime }} minutes
                     </p>
                     <p class="my-2">
-                        Rating <i class="pi pi-star-fill text-yellow-500"></i>: {{ show.rasting }} 
+                        Rating <i class="pi pi-star-fill text-yellow-500"></i>: {{ show.rating }} 
                     </p>
                 </div>
-                <div class="col-12 md:col-6 my-2">
-                    <iframe [src]="getYoutubeEmbedUrl(show.yt_trailer_code)" frameborder="0" class="w-full h-20rem"></iframe>
+                <div class="col-12 md:col-8 lg:col-6 my-2">
+                    <iframe [src]="getYoutubeEmbedUrl(show.yt_trailer_code)" frameborder="0"
+                    allowfullscreen loading="lazy" 
+                     class="w-full h-20rem"></iframe>
 
-                    <h5 class="my-2 lora-bold">
-                        Movie Description
-                    </h5>
+                    <p-panel  [toggleable]="true">
+                        <ng-template pTemplate="header">
+                            <div class="flex align-items-center p-3 justify-content-between">
+                                Movie description
+                            </div>
+                        </ng-template>
+                        <p-scrollPanel [style]="{ width: '100%', height: '250px' }" styleClass="custombar2 ">
+                            <p class="text-justify p-2 m-2">
+                                {{
+                                    show.description_full || show.description_intro || "Description not set"
+                                }}
+                            </p>
 
-                    <p>
-                        {{
-                            show.description_full || show.description_intro
-                        }}
-                    </p>
+                        </p-scrollPanel>
+
+                    </p-panel>
                 </div>
-                <div class="col-12 my-2 md:col-3">
+                <div class="col-12 my-2 md:col-12 lg:col-3">
                     <h2>
                         Cast
                     </h2>
 
-                    <div class="grid">
-                        <div class="w-5 p-2 my-2" *ngFor="let cast of show.cast">
+                    <div class="grid" *ngIf="show.cast.length > 0; else nocast">
+                        <div class="w-6 md:w-4 sm:w-6  lg:w-6 p-2 my-2" *ngFor="let cast of show.cast">
                             <img [src]="cast.url_small_image" alt="" class="w-full h-7rem">
                             <p class="inline-flex flex-column"> 
                                 <span>
@@ -67,15 +76,21 @@
                             </p>
                         </div>
                     </div>
+
+                    <ng-template #nocast>
+                        <div class="my-3">
+                            No cast defined for {{ show.title_english }}
+                        </div>
+                    </ng-template>
                 </div>
             </div>
             <div class="my-3 mb-5">
                 <h1 class="text-center lora-semibold">
                     Torrent download links
 
-                    <div class="links grid gap-2 w-12 m-auto text-center" >
-                        <div class="link  col-12 md:col-3 p-2 m-2 border-round" *ngFor="let torrent of show.torrents">
-                            <div class="grid surface-overlay ">
+                    <div class="links grid  w-11 m-auto " >
+                        <div class="col-12 md:col-6 lg:col-4 my-2 " *ngFor="let torrent of show.torrents">
+                            <div class="grid surface-overlay m-1 border-round-xl torrent">
                                 <div class="col-9">
                                     <p class="inline-flex flex-column gap-2 text-left text-sm flex-wrap">
                                         <span>
@@ -125,14 +140,14 @@
 
 
 <div class="relatedloaded" *ngIf="!(relatedloading) && relatedShows.length > 0">  
-    <h3 class="w-full line-height-4 font-bold text-xl">
+    <h3 class="w-10 m-auto line-height-4 font-bold text-xl">
         You may also like
     </h3>
 
-    <div class="grid">
+    <div class="grid w-12 m-auto">
         @for(movie of relatedShows; track $index){
-            <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3">
-                <app-card [id]="movie.id" [name]="movie.title_english" [image]="movie.medium_cover_image"></app-card>
+            <div class="col-12 sm:col-6 md:col-4 lg:col-3 m p-2 my-3">
+                <app-card [id]="movie.id" [name]="movie.title_english" [image]="movie.medium_cover_image" class="m-1"></app-card>
             </div>
 
         }
@@ -150,4 +165,4 @@
         </div>
 </div>
 
-<p-toast [life]="3500"></p-toast>
+<p-toast [life]="3500" styleClas="text-wrap"></p-toast>

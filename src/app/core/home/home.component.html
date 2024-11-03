@@ -17,7 +17,7 @@
         <p class="w-12 md:w-6 hidden md:block">
             {{ selectedmovie?.description_intro  }}
         </p>
-        <p-button label="More info" outlined="true" styleClass="p-2 my-2" icon="pi pi-chevron-right" iconPos="right"></p-button>
+        <p-button label="More info" outlined="true" styleClass="p-2 my-2" icon="pi pi-chevron-right" iconPos="right" [routerLink]="['/movie', selectedmovie?.id]"></p-button>
     </div>
 </div>
 

@@ -1,6 +1,6 @@
 <!-- <div *ngIf="isonline; else offline"> -->
     <div class="glass shadow-3 z-5 absolute top-0 left-0 w-full py-2 flex align-items-center justify-content-between p-2">
-        <h2>
+        <h2 [routerLink]="['/home']" class="cursor-pointer">
             EntZone
         </h2>
         <div class="flex align-items-center justify-content-between gap-2">
@@ -16,6 +16,7 @@
     <div>
       <router-outlet></router-outlet>
     </div>
+    <app-footer></app-footer>
 <p-dialog header="Search" [(visible)]="displayDialog" [modal]="true" [closable]="true"
   [draggable]="false" [dismissableMask]="true"
 styleClass="p-2 w-12 md:w-7 lg:w-5 h-15rem"

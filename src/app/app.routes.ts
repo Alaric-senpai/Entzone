@@ -22,7 +22,7 @@ export const routes: Routes = [
         pathMatch: 'full'
     },
     {
-        path: 'info/:id',
+        path: 'movie/:id',
         component: DetailsComponent
     },
     {
