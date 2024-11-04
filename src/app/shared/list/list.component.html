@@ -1,0 +1,24 @@
+            <div class="surface-overlay cursor-pointer shadow-4 hover:shadow-6 transition-duration-500 p-2 w-full border-round inline-flex gap-2 flex-row" [routerLink]="['/movie', id]">
+                <img [src]="image" [alt]="title" class="h-5rem w-5rem border-round shadow-3">
+                <div class="info inline-flex flex-column gap-2" >
+                    <h2>
+                        {{
+                            title
+                        }}
+                    </h2>
+                    <span class="flex flex-wrap gap-2">
+                        Year: {{
+                            year
+                        }}
+                        <span class="text-red-400">
+                         rating: {{
+                            rating
+                         }}
+                        </span>
+                         runtime: {{
+                            runtime
+                         }} mins
+
+                    </span>
+                </div>
+            </div>

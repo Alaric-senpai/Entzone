@@ -8,11 +8,14 @@ import { Subscription, interval } from 'rxjs';
 import { RouterModule } from '@angular/router';
 import { ChangeDetectorRef } from '@angular/core';
 import { SkeletonModule } from 'primeng/skeleton';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { FormsModule } from '@angular/forms';
+import { ListComponent} from '../../shared/list/list.component';
 @Component({
   selector: 'app-home',
   standalone: true,
   imports: [TagModule, ButtonModule, CardComponent, CommonModule, RouterModule,
-    SkeletonModule],
+    SkeletonModule, ListComponent, FormsModule, SelectButtonModule],
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss']
 })
@@ -25,6 +28,14 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedmovie: any;
   private subscription: Subscription = new Subscription();
   private intervalId: any;
+
+    viewOptions = [
+    { label: 'List View', value: 'list', icon: 'pi pi-list' },
+    { label: 'Grid View', value: 'grid', icon: 'pi pi-th-large' }
+  ];
+  selectedView: string = 'list';
+
+
 
   constructor(private yts: YtsService, private cdr: ChangeDetectorRef) {}
 
@@ -44,7 +55,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private GetMovies(): void {
-    this.yts.getTrendingmovies().subscribe(
+    this.yts.getmovies().subscribe(
       (data: any) => {
         this.movies = data.data.movies;
         this.loading  = false

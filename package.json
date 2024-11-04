@@ -6,8 +6,7 @@
     "start": "ng serve",
     "build": "ng build",
     "watch": "ng build --watch --configuration development",
-    "test": "ng test",
-    "serve:ssr:Entzone": "node dist/entzone/server/server.mjs"
+    "test": "ng test"
   },
   "private": true,
   "dependencies": {
@@ -18,10 +17,7 @@
     "@angular/forms": "^18.0.0",
     "@angular/platform-browser": "^18.0.0",
     "@angular/platform-browser-dynamic": "^18.0.0",
-    "@angular/platform-server": "^18.0.0",
     "@angular/router": "^18.0.0",
-    "@angular/ssr": "^18.2.10",
-    "@nguniversal/express-engine": "^7.0.1",
     "express": "^4.18.2",
     "ngx-seo-helper": "^0.0.6",
     "primeflex": "^3.3.1",

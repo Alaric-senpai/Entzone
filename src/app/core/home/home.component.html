@@ -1,17 +1,18 @@
-<div class="h-screen w-screen overflow-hidden relative">
+<div *ngIf="!(loading); else isloading">
+    <div class="h-screen w-screen overflow-hidden relative">
 
 
     <!-- Dynamic Background Image -->
     <img [src]="selectedmovie?.large_cover_image" alt="" class="w-full h-full">
     
     <div class="title transform text-center glass p-1 border-round-2xl">
-        <h1 class="lora-bold text-2xl lg:text-7xl">
+        <h1 class="lora-bold text-2xl lg:text-7xl text-white">
             {{ selectedmovie?.title_english }}
         </h1>
     </div>
 
     <div class="absolute bottom-0 left-0 w-full p-4 glass">
-        <h5 class="text-xl lora-semibold my-2">
+        <h5 class="text-xl lora-semibold my-2 text-white">
             {{ selectedmovie?.title_english }}
         </h5>
         <p class="w-12 md:w-6 hidden md:block">
@@ -21,9 +22,40 @@
     </div>
 </div>
 
-<h3 class="my-2">High rating movies</h3>
-<div class="grid w-screen">
-    <div class="col-12 md:col-4 lg:col-3 p-3" *ngFor="let movie of movies">
-        <app-card [name]="movie.title_english" [image]="movie.medium_cover_image" [id]="movie.id" [genres]="movie.genres"></app-card>
+    <div class="w-full p-4 flex align-items-center justify-content-between flex-nowrap">
+        <h2 class="w-full line-height-4 font-bold text-2xl">
+                Recently added 
+        </h2>
+        <div>
+          <p-selectButton
+          styleClass=" flex flex-nowrap flex-row "
+           [options]="viewOptions" [(ngModel)]="selectedView" optionLabel="label" optionValue="value">
+            <ng-template let-item pTemplate="item">
+                <i class="p-2">
+                    <i [class]="item.icon"></i>
+                    
+                </i>
+            </ng-template>
+          </p-selectButton>
+        </div>
     </div>
+
+
+    <div class="grid" *ngIf="selectedView == 'grid' ; else list">
+            <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3" *ngFor="let movie of movies">
+                <app-card [image]="movie.medium_cover_image" [id]="movie.id" [name]="movie.title_english" [genres]="movie.genres"></app-card>
+            </div>
+    </div>
+    <ng-template #list>
+        <div class="grid p-2">
+            <div class="col-12 md:col-6 p-2" *ngFor="let movie of movies">
+                <app-list [id]="movie.id" [title]="movie.title_english" [image]="movie.small_cover_image" [runtime]="movie.runtime" [year]="movie.year" ></app-list>
+            </div>
+        </div> 
+    </ng-template>
+
 </div>
+
+<ng-template #isloading>
+    <p-skeleton styleClass="h-screen w-screen"></p-skeleton>
+</ng-template>

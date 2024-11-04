@@ -2,6 +2,23 @@
     <div class="relative w-screen ">
         <!-- <img [src]="show.background_image_original" alt="" class="" class="w-full h-full"> -->
         <div class="pt-7">
+            <div class="p-3">
+                <p-breadcrumb class="max-w-max" [model]="items">
+                    <ng-template pTemplate="item" let-item>
+                        <ng-container *ngIf="item.route; else elseBlock">
+                            <a [routerLink]="item.route" class="p-menuitem-link p-2 text-xl lora-semibold">
+                                <span [ngClass]="[item.icon ? item.icon : '', 'text-color']"></span>
+                                <span class="text-primary font-semibold">{{ item.label }}</span>
+                            </a>
+                        </ng-container>
+                        <ng-template #elseBlock>
+                            <a [href]="item.url">
+                                <span class="text-color">{{ item.label }}</span>
+                            </a>
+                        </ng-template>
+                    </ng-template>
+                </p-breadcrumb>
+            </div> 
             <div class="grid p-3">
                 <div class="col-12 md:col-4 lg:col-3 block gap-2 my-2 p-2">
                     <img [src]="show.medium_cover_image" alt="" class="w-full h-20rem shadow-1 border-round-xl">
@@ -68,7 +85,7 @@
                                     {{ cast.name }}
                                 </span>
 
-                                <span class="text-300">
+                                <span class="text-500">
                                     {{
                                         cast.character_name
                                     }}
@@ -90,7 +107,7 @@
 
                     <div class="links grid  w-11 m-auto " >
                         <div class="col-12 md:col-6 lg:col-4 my-2 " *ngFor="let torrent of show.torrents">
-                            <div class="grid surface-overlay m-1 border-round-xl torrent">
+                            <div class="grid surface-overlay shadow-3 hover:shadow-5 transition-duration-500 m-1 border-round-xl torrent">
                                 <div class="col-9">
                                     <p class="inline-flex flex-column gap-2 text-left text-sm flex-wrap">
                                         <span>

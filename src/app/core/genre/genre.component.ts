@@ -5,11 +5,14 @@ import { CardComponent } from '../../shared/card/card.component';
 import { CommonModule } from '@angular/common';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { FormsModule } from '@angular/forms';
+import { ListComponent} from '../../shared/list/list.component';
 
 @Component({
   selector: 'app-genre',
   standalone: true,
-  imports: [CardComponent, CommonModule, ButtonModule, SkeletonModule],
+  imports: [CardComponent, CommonModule, ButtonModule, SkeletonModule, SelectButtonModule, FormsModule, ListComponent],
   templateUrl: './genre.component.html',
   styleUrl: './genre.component.scss'
 })
@@ -22,6 +25,16 @@ export class GenreComponent implements OnInit {
   totalMovies: any = 0;
   page: number = 1; // Changed from 'Number' to 'number'
   totalPages!: number; // Changed from 'Number' to 'number'
+
+  viewOptions = [
+    { label: 'List View', value: 'list', icon: 'pi pi-list' },
+    { label: 'Grid View', value: 'grid', icon: 'pi pi-th-large' }
+  ];
+  selectedView: string = 'list';
+
+
+
+
   constructor(
     private yts: YtsService,
     private route:ActivatedRoute

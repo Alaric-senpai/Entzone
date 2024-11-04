@@ -1,17 +1,37 @@
 <div class="mt-7 w-screeen">
     <div class="loaded" *ngIf="!(loading) && movies.length > 0">
-    <div class="w-full p-4">
+    <div class="w-full p-4 flex align-items-center justify-content-between flex-nowrap">
         <h2 class="w-full line-height-4 font-bold text-2xl">
             Explore Movies
         </h2>
+        <div>
+          <p-selectButton
+          styleClass=" flex flex-nowrap flex-row "
+           [options]="viewOptions" [(ngModel)]="selectedView" optionLabel="label" optionValue="value">
+            <ng-template let-item pTemplate="item">
+                <i class="p-2">
+                    <i [class]="item.icon"></i>
+                    
+                </i>
+            </ng-template>
+          </p-selectButton>
+        </div>
     </div>
 
 
-    <div class="grid">
+    <div class="grid" *ngIf="selectedView == 'grid' ; else list">
             <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3" *ngFor="let movie of movies">
                 <app-card [image]="movie.medium_cover_image" [id]="movie.id" [name]="movie.title_english" [genres]="movie.genres"></app-card>
             </div>
     </div>
+    <ng-template #list>
+        <div class="grid p-2">
+            <div class="col-12 md:col-6 p-2" *ngFor="let movie of movies">
+                <app-list [id]="movie.id" [title]="movie.title_english" [image]="movie.small_cover_image" [runtime]="movie.runtime" [year]="movie.year" ></app-list>
+            </div>
+        </div> 
+    </ng-template>
+
 
 
 <div class="paginator w-8 p-4 m-auto flex align-items-center justify-content-center">

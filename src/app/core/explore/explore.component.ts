@@ -7,11 +7,13 @@ import { YtsService } from '../../services/yts.service';
 import { Subscription } from 'rxjs';
 import { ButtonModule } from 'primeng/button';
 import { SkeletonModule } from 'primeng/skeleton';
-
+import { SelectButtonModule } from 'primeng/selectbutton';
+import { FormsModule } from '@angular/forms';
+import { ListComponent} from '../../shared/list/list.component';
 @Component({
   selector: 'app-explore',
   standalone: true,
-  imports: [CardComponent, RouterModule, CommonModule, CarouselModule, ButtonModule, SkeletonModule],
+  imports: [CardComponent, RouterModule, CommonModule, CarouselModule, ButtonModule, SkeletonModule, SelectButtonModule, FormsModule, ListComponent],
   templateUrl: './explore.component.html',
   styleUrls: ['./explore.component.scss']
 })
@@ -25,6 +27,13 @@ export class ExploreComponent {
   private subscription: Subscription = new Subscription(); // Initialize a Subscription object
 
   constructor(private yts: YtsService) {}
+
+  viewOptions = [
+    { label: 'List View', value: 'list', icon: 'pi pi-list' },
+    { label: 'Grid View', value: 'grid', icon: 'pi pi-th-large' }
+  ];
+  selectedView: string = 'list';
+
 
   ngOnInit(): void {
     this.initMovies();

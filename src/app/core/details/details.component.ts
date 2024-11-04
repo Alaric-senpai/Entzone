@@ -1,7 +1,6 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, RouterModule } from '@angular/router';
 import { AccordionModule } from 'primeng/accordion';
-import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { CardModule } from 'primeng/card';
 import { TagModule } from 'primeng/tag';
 import { CardComponent } from '../../shared/card/card.component';
@@ -15,11 +14,14 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { SEOService } from 'ngx-seo-helper';
 import { PanelModule } from 'primeng/panel';
+import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
+import { MenuItem } from 'primeng/api';
+
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule, RouterModule, SkeletonModule, ToastModule, PanelModule, ScrollPanelModule],
+  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule, RouterModule, SkeletonModule, ToastModule, PanelModule, ScrollPanelModule,],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
   providers: [MessageService]
@@ -32,6 +34,10 @@ export class DetailsComponent implements OnInit, OnDestroy {
   showid: any;
   show: any;
   relatedShows: any = [];
+
+  items: MenuItem[] | undefined;
+
+    home: MenuItem | undefined;
 
   constructor(
     private route: ActivatedRoute,
@@ -59,6 +65,7 @@ export class DetailsComponent implements OnInit, OnDestroy {
         this.loading = false
         this.setSeo()
         this.getRelatedShows();
+        this.setBreadcrumb()
       },
       (err) => {
         console.log(err);
@@ -67,6 +74,23 @@ export class DetailsComponent implements OnInit, OnDestroy {
 
     this.subscription.add(moviedata);
   }
+
+  setBreadcrumb(){
+    this.items = [
+    {
+      icon: 'pi pi-home',
+      route: '/home'
+    },
+    {
+      label: 'Explore',
+      route: '/explore'
+    },
+    {
+      label: this.show.title_english,
+    }
+    ]
+  }
+
   setSeo() {
     this.seo.updateMetaTags(
       {

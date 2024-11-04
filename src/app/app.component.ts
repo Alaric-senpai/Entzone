@@ -10,7 +10,7 @@ import { Message, MessageService } from 'primeng/api';
 import { DialogModule } from 'primeng/dialog';
 import { ToastModule } from 'primeng/toast';
 import { SEOService } from 'ngx-seo-helper'; 
-
+import { ThemingService } from './services/theming.service';
 import { FooterComponent} from './shared/footer/footer.component'
 
 
@@ -48,10 +48,12 @@ export class AppComponent implements OnInit {
 
   title = 'Entzone';
   isonline = navigator.onLine; // Initialize directly based on navigator.onLine
+  selectedTheme:string = "light";
 
   constructor(
     private fb: FormBuilder,
     private router: Router,
+    private themeservice:ThemingService,
     private ms: MessageService,
     private seo: SEOService // Confirm this import
 ) {
@@ -74,6 +76,8 @@ export class AppComponent implements OnInit {
   searchform!:FormGroup ;
 
   ngOnInit(): void {
+    this.themeservice.setTheme(this.selectedTheme);
+    
     // Listen for online/offline events
     window.addEventListener('online', this.updateOnlineStatus.bind(this));
     window.addEventListener('offline', this.updateOnlineStatus.bind(this));

@@ -1,12 +1,12 @@
 /* Global Styles for the Application */
+@import "primeng/resources/themes/lara-dark-green/theme.css";  // Choose your preferred theme
 
 // Import PrimeNG and PrimeFlex styles
-@import "primeng/resources/themes/lara-dark-teal/theme.css";  // Choose your preferred theme
 @import "primeng/resources/primeng.css";                       // PrimeNG core styles
 @import "primeicons/primeicons.css";                           // PrimeIcons for icons
 @import "primeflex/primeflex.scss";                            // Import PrimeFlex SCSS for layout
 
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400..700&display=swap');
+ /* @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@1,400..700&display=swap'); */
 
 
 
@@ -74,29 +74,7 @@ overflow-x:hidden !important;
     display:none !important;
 }
 
-/* Variant with increased background opacity and a soft blur */
-.glass-readable-light {
-    background-color: rgba(255, 255, 255, 0.5);
-    filter: blur(5px);
-    border: 1px solid rgba(255, 255, 255, 0.4);
-    color: #333; /* Darker text color for readability */
-}
 
-/* Teal-tinted variant with increased opacity for readability */
-.glass-readable-teal {
-    background-color: rgba(0, 128, 128, 0.4);
-    filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.3);
-    color: #fff; /* White text color for contrast */
-}
-
-/* Purple-tinted variant with stronger background and moderate blur */
-.glass-readable-purple {
-    background-color: rgba(128, 0, 128, 0.35);
-    filter: blur(6px);
-    border: 1px solid rgba(255, 255, 255, 0.25);
-    color: #fff; /* White text color for better visibility */
-}
 
 .mt-7{
     margin-top:70px !important;
