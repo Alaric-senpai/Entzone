@@ -17,11 +17,14 @@ import { PanelModule } from 'primeng/panel';
 import { BreadcrumbModule } from 'primeng/breadcrumb';
 import { ScrollPanelModule } from 'primeng/scrollpanel';
 import { MenuItem } from 'primeng/api';
+import { YouTubePlayer } from '@angular/youtube-player';
 
 @Component({
   selector: 'app-details',
   standalone: true,
-  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule, RouterModule, SkeletonModule, ToastModule, PanelModule, ScrollPanelModule,],
+  imports: [CardModule, TagModule, BreadcrumbModule, AccordionModule, CardComponent, ButtonModule, CommonModule, RouterModule, SkeletonModule, ToastModule, PanelModule, ScrollPanelModule,
+    YouTubePlayer
+  ],
   templateUrl: './details.component.html',
   styleUrl: './details.component.scss',
   providers: [MessageService]

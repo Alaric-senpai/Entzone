@@ -51,9 +51,10 @@
                     </p>
                 </div>
                 <div class="col-12 md:col-8 lg:col-6 my-2">
-                    <iframe [src]="getYoutubeEmbedUrl(show.yt_trailer_code)" frameborder="0"
+                    <!-- <iframe [src]="getYoutubeEmbedUrl(show.yt_trailer_code)" frameborder="0"
                     allowfullscreen loading="lazy" 
-                     class="w-full h-20rem"></iframe>
+                     class="w-full h-20rem"></iframe> -->
+                     <youtube-player [videoId]="show.yt_trailer_code"/>
 
                     <p-panel  [toggleable]="true">
                         <ng-template pTemplate="header">
