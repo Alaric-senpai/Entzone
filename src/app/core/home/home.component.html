@@ -1,61 +1,123 @@
-<div *ngIf="!(loading); else isloading">
-    <div class="h-screen w-screen overflow-hidden relative">
+<div *ngIf="!loading; else isloading">
+  <div class="h-screen w-screen overflow-hidden relative grid grid-nogutter py-4">
 
+    <!-- Movie Details Section -->
+    <div class="col-12 lg:col-7 relative">
+      <!-- Dynamic Background Image -->
+      <img 
+        [src]="selectedmovie?.large_cover_image" 
+        alt="Movie Cover Image" 
+        class="absolute w-full h-full object-cover z-1">
 
-    <!-- Dynamic Background Image -->
-    <img [src]="selectedmovie?.large_cover_image" alt="" class="w-full h-full">
-    
-    <div class="title transform text-center glass p-1 border-round-2xl">
-        <h1 class="lora-bold text-2xl lg:text-7xl text-white">
-            {{ selectedmovie?.title_english }}
-        </h1>
-    </div>
+      <!-- Overlay for Better Visibility -->
+      <div class="absolute glass inset-0  z-2"></div>
 
-    <div class="absolute bottom-0 left-0 w-full p-4 glass">
-        <h5 class="text-xl lora-semibold my-2 text-white">
-            {{ selectedmovie?.title_english }}
+      <!-- Content Overlay -->
+      <div class="absolute glass w-full bottom-0 flex flex-column justify-content-end p-4 z-3">
+        <h5 class="text-xl font-bold my-2 text-white">
+          {{ selectedmovie?.title_english }}
         </h5>
-        <p class="w-12 md:w-6 hidden md:block">
-            {{ selectedmovie?.description_intro  }}
+        <p class="hidden md:block text-white">
+          {{ selectedmovie?.description_intro }}
         </p>
-        <p-button label="More info" outlined="true" styleClass="p-2 my-2" icon="pi pi-chevron-right" iconPos="right" [routerLink]="['/movie', selectedmovie?.id]"></p-button>
+        <p-button 
+          label="More info" 
+          outlined="true" 
+          styleClass="p-2 my-2" 
+          icon="pi pi-chevron-right" 
+          iconPos="right" 
+          [routerLink]="['/movie', selectedmovie?.id]">
+        </p-button>
+      </div>
     </div>
-</div>
 
-    <div class="w-full p-4 flex align-items-center justify-content-between flex-nowrap">
-        <h2 class="w-full line-height-4 font-bold text-2xl">
-                Recently added 
+    <!-- Additional Content Section -->
+    <div class="col-12 lg:col-5 relative h-full overflow-y-scroll overflow-x-scroll lg:overflow-x-hidden">
+      <div class="sticky top-0 z-2 left-0 shadwo-5 text-center mx-2 w-full surface-overlay py-3">
+        <h2>
+          Trending movies
         </h2>
-        <div>
-          <p-selectButton
-          styleClass=" flex flex-nowrap flex-row "
-           [options]="viewOptions" [(ngModel)]="selectedView" optionLabel="label" optionValue="value">
-            <ng-template let-item pTemplate="item">
-                <i class="p-2">
-                    <i [class]="item.icon"></i>
-                    
-                </i>
-            </ng-template>
-          </p-selectButton>
+      </div>
+
+      <div class="p-2 flex flex-row lg:flex-column gap-3 lg:gap-0 ">
+        <div class="card shadow-3 flex flex-row gap-2 min-w-full my-2 w-full p-2 surface-overlay border-round-xl h-full" *ngFor="let movie of trending ">
+          <img [src]="movie?.medium_cover_image" alt="" class="w-5 h-14rem border-round-xl">
+          <div class="w-full">
+
+          <p-button label="category" severity="success" styleClass="p-2 w-max" outlined="true"></p-button>
+
+          <h2 class="p-3 line-height-3 lora-bold">
+            {{ movie?.title_english }}
+          </h2>
+
+          <div class="flex flex-column b  gap-3 lora-semibold p-3">
+            <p>
+            rating: {{ movie?.rating }} 
+            </p>
+            <p>
+            year: {{ movie?.year }}              
+            </p>
+          </div>
+
+          <p-button styleClass="p-2 w-full" label="visit" [routerLink]="['/movie', movie?.id]">
+            
+          </p-button>
         </div>
+        </div>
+
+      </div>
     </div>
 
+  </div>
 
-    <div class="grid" *ngIf="selectedView == 'grid' ; else list">
-            <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3" *ngFor="let movie of movies">
-                <app-card [image]="movie.medium_cover_image" [id]="movie.id" [name]="movie.title_english" [genres]="movie.genres"></app-card>
-            </div>
+  <!-- Recently Added Section -->
+  <div class="w-full p-4 flex align-items-center justify-content-between">
+    <h2 class="w-full line-height-4 font-bold text-2xl">
+      Recently added
+    </h2>
+    <div>
+      <p-selectButton
+        class="flex flex-row"
+        [options]="viewOptions" 
+        [(ngModel)]="selectedView" 
+        optionLabel="label" 
+        optionValue="value">
+        <ng-template let-item pTemplate="item">
+          <i class="p-2">
+            <i [class]="item.icon"></i>
+          </i>
+        </ng-template>
+      </p-selectButton>
     </div>
-    <ng-template #list>
-        <div class="grid p-2">
-            <div class="col-12 md:col-6 p-2" *ngFor="let movie of movies">
-                <app-list [id]="movie.id" [title]="movie.title_english" [image]="movie.small_cover_image" [runtime]="movie.runtime" [year]="movie.year" ></app-list>
-            </div>
-        </div> 
-    </ng-template>
+  </div>
 
+  <!-- Movie Grid or List View -->
+  <div class="grid" *ngIf="selectedView == 'grid'; else list">
+    <div class="col-12 sm:col-6 md:col-4 lg:col-3 p-2 my-3" *ngFor="let movie of movies">
+      <app-card 
+        [image]="movie.medium_cover_image" 
+        [id]="movie.id" 
+        [name]="movie.title_english" 
+        [genres]="movie.genres">
+      </app-card>
+    </div>
+  </div>
+  <ng-template #list>
+    <div class="grid p-2">
+      <div class="col-12 md:col-6 p-2" *ngFor="let movie of movies">
+        <app-list 
+          [id]="movie.id" 
+          [title]="movie.title_english" 
+          [image]="movie.small_cover_image" 
+          [runtime]="movie.runtime" 
+          [year]="movie.year">
+        </app-list>
+      </div>
+    </div>
+  </ng-template>
 </div>
 
 <ng-template #isloading>
-    <p-skeleton styleClass="h-screen w-screen"></p-skeleton>
+  <p-skeleton class="min-h-screen w-screen"></p-skeleton>
 </ng-template>
+

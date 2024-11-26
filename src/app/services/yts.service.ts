@@ -14,12 +14,12 @@ export class YtsService {
     const url = `${this.basurl}/list_movies.json?limit=50`
     return this.http.get<any[]>(url)
   }
-  getTrendingmovies(): Observable<any[]> {
-    const url = `${this.basurl}/list_movies.json?limit=50&minimum_rating=10&sort_by=rating`
-    return this.http.get<any[]>(url)
+  getTrendingMovies(): Observable<any[]> {
+    const url = `${this.basurl}/list_movies.json?sort_by=like_count&order_by=desc&limit=20&minimum_rating=7&quality=1080p`;
+    return this.http.get<any[]>(url);
   }
 
-    getmoviesbypage(page:any): Observable<any[]> {
+  getmoviesbypage(page:any): Observable<any[]> {
     const url = `${this.basurl}/list_movies.json?limit=50&page=${page}`
     return this.http.get<any[]>(url)
   }

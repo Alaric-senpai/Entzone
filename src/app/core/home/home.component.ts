@@ -22,6 +22,7 @@ import { ListComponent} from '../../shared/list/list.component';
 export class HomeComponent implements OnInit, OnDestroy {
   loader = [1,2,3,4,5,6,7,8,9,9,9,9,9,9,9,9,9,7,7,8,6,4,5,6,4,6,6,6]
   movies: any = [];
+  trending:any = [];
   totalmovies = 50;
   loading:boolean = true
   activemovie: number = 0; // Start from 0 to align with the index of the movies array
@@ -41,6 +42,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.GetMovies();
+    this.GetTrending();
 
     // Set up interval to switch active movie every 45 seconds (45000 milliseconds)
     this.intervalId = setInterval(() => {
@@ -68,6 +70,20 @@ export class HomeComponent implements OnInit, OnDestroy {
       }
     );
   }
+
+  private GetTrending(): void {
+    this.yts.getTrendingMovies().subscribe(
+      (data: any) => {
+        this.trending = data.data.movies;
+        console.log(this.trending)
+      },
+      (error) => {
+        console.error(error);
+      }
+    );
+  }
+
+
 
   ngOnDestroy(): void {
     clearInterval(this.intervalId); // Clear interval when component is destroyed
